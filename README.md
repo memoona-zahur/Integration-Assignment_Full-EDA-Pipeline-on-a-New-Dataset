@@ -6,13 +6,22 @@ Self-contained exploratory data analysis notebook: generate a dataset with plant
 
 | File | Description |
 |------|-------------|
-| `week5_thursday_eda.ipynb` | Complete EDA notebook — diagnosis, cleaning, 9 visualizations, 15 automated checks, findings, technical summary |
-| `.venv/` | Python virtual environment with numpy, pandas, matplotlib, scipy, jupyter |
-| `01_histogram_price_distribution.png` | Histogram: unit price spread |
-| `02_bar_category_revenue.png` | Bar chart: total revenue per category |
-| `03_scatter_price_vs_quantity.png` | Scatter plot: unit price vs quantity |
-| `04_line_daily_orders.png` | Line chart: daily order volume over time |
-| `05_bar_region_distribution.png` | Horizontal bar: region distribution |
+| `week5_thursday_eda.ipynb` | Complete EDA notebook — diagnosis, cleaning, 9 visualizations, 22 automated checks, findings, technical summary |
+| `generate_data.py` | Reproducible dataset generation — exact assignment spec, seed=42, creates orders_raw.csv |
+| `orders_raw.csv` | Raw dataset — 5,015 rows x 7 columns with 7 planted quality issues |
+| `technical_summary.md` | Standalone write-up for non-technical readers — findings, limitations, cleaning summary |
+| `build_notebook.py` | Build script — generates the notebook programmatically for reproducibility |
+| `.venv/` | Python virtual environment (numpy, pandas, matplotlib, scipy, jupyter) |
+| `.gitignore` | Excludes `.venv/` from version control |
+| `01_histogram_price_distribution.png` | Chart 1 — histogram of unit price distribution |
+| `02_bar_category_revenue.png` | Chart 2 — total revenue by product category |
+| `03_scatter_price_vs_quantity.png` | Chart 3 — scatter plot with Pearson correlation |
+| `04_line_daily_orders.png` | Chart 4 — daily order volume with rolling average |
+| `05_bar_region_distribution.png` | Chart 5 — horizontal bar: orders by region |
+| `06_subplots_grid_2x2.png` | Chart 6 — 2x2 subplots dashboard |
+| `07_misleading_vs_honest.png` | Chart 7 — truncated y-axis vs honest comparison |
+| `08_before_after_distribution.png` | Chart 8 — before/after cleaning overlaid histograms |
+| `09_bar_category_counts.png` | Chart 9 — order counts by category after normalization |
 
 ## Setup
 
@@ -81,7 +90,7 @@ python -m jupyter nbconvert --to notebook --execute week5_thursday_eda.ipynb
 - Scipy distribution shape analysis (skewness + kurtosis)
 - Negative unit_price detection (7th issue beyond the 6 listed in spec)
 - Revenue column computed for category-level analysis
-- 15 automated post-cleaning verification checks
+- 22 automated post-cleaning verification checks
 - Pearson correlation computed for scatter plot
 - 7-day rolling average on time series chart
 - Misleading vs honest chart comparison (media literacy)
