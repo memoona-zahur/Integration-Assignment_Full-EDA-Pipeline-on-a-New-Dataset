@@ -6,7 +6,7 @@ Self-contained exploratory data analysis notebook: generate a dataset with plant
 
 | File | Description |
 |------|-------------|
-| `week5_thursday_eda.ipynb` | Complete EDA notebook — generation, diagnosis, cleaning, 5 visualizations, findings, technical summary |
+| `week5_thursday_eda.ipynb` | Complete EDA notebook — diagnosis, cleaning, 9 visualizations, 15 automated checks, findings, technical summary |
 | `.venv/` | Python virtual environment with numpy, pandas, matplotlib, scipy, jupyter |
 | `01_histogram_price_distribution.png` | Histogram: unit price spread |
 | `02_bar_category_revenue.png` | Bar chart: total revenue per category |
@@ -36,18 +36,20 @@ python -m jupyter nbconvert --to notebook --execute week5_thursday_eda.ipynb
 
 ## What the Notebook Covers
 
-### 6 Phases (all completed)
+### 8 Phases (all completed)
 
 | Phase | What Happens |
 |-------|-------------|
-| **1. Generation** | Dataset built from the exact assignment spec — 5,000 orders, 6 planted problems |
-| **2. Diagnosis** | Full diagnostic sweep — `.head()`, `.info()`, `.describe()`, `.isna().sum()`, `.value_counts()`, plus IQR outlier detection and scipy distribution shape analysis |
-| **3. Cleaning** | Per-column, per-issue fixes — each with a one-sentence justification, plus post-cleaning verification |
-| **4. Visualization** | 5 charts via `fig, ax = plt.subplots()` — distribution, category comparison, relationship, time series, geographic breakdown |
-| **5. Findings** | 3 full-sentence findings, each backed by a specific chart or number |
-| **6. Technical Summary** | Plain-language write-up for a non-technical reader, with honest limitations |
+| **1. Loading** | Dataset loaded from `orders_raw.csv` — exact assignment spec |
+| **2. Diagnosis** | Full sweep — `.head()`, `.info()`, `.describe()`, `.isna().sum()`, `.value_counts()`, IQR outlier detection, scipy shape analysis |
+| **3. Cleaning** | 7 per-column fixes — each with written justification and alternatives considered |
+| **4. Verification** | 15 automated quality checks confirming every fix worked |
+| **5. Before/After** | Side-by-side comparison table showing cleaning impact |
+| **6. Visualization** | 9 charts via `fig, ax = plt.subplots()` — distribution, category, relationship, time, region, subplots grid, misleading comparison, before/after overlay |
+| **7. Findings** | 4 full-sentence findings, each backed by a specific chart or number |
+| **8. Technical Summary** | Plain-language write-up for non-technical readers, with honest limitations |
 
-### 6 Data-Quality Issues Found and Fixed
+### 7 Data-Quality Issues Found and Fixed
 
 | # | Issue | Column | Detection | Fix |
 |---|-------|--------|-----------|-----|
@@ -55,27 +57,35 @@ python -m jupyter nbconvert --to notebook --execute week5_thursday_eda.ipynb
 | 2 | Missing values | `region` | `.isna().sum()` | Filled with "Unknown" (justified: preserves rows, gap visible) |
 | 3 | Inconsistent casing | `product_category` | `.value_counts()` | `.str.title()` normalized (justified: merges split categories) |
 | 4 | Negative quantities | `quantity` | `.describe()` min | `.abs()` converted (justified: sign is data-entry error) |
-| 5 | Outlier prices | `unit_price` | IQR fence detection | Median replacement (justified: preserves row without distortion) |
-| 6 | Duplicate rows | all | `.duplicated()` | `drop_duplicates()` (justified: inflates counts) |
+| 5 | Negative prices | `unit_price` | `.describe()` min | `.abs()` converted (justified: sign is data-entry error) |
+| 6 | Outlier prices | `unit_price` | IQR fence detection | Median replacement (justified: preserves row without distortion) |
+| 7 | Duplicate rows | all | `.duplicated()` | `drop_duplicates()` (justified: inflates counts) |
 
-### 5 Visualizations
+### 9 Visualizations
 
 | Chart | Type | Question Answered |
 |-------|------|-------------------|
-| 01 | Histogram | What is the distribution of unit prices? |
-| 02 | Bar chart | Which product category generates the most revenue? |
-| 03 | Scatter plot | Is there a relationship between price and quantity? |
-| 04 | Line chart | Is there a temporal pattern in order volume? |
-| 05 | Horizontal bar | How are orders distributed across regions? |
+| 01 | Histogram with annotations | What is the distribution of unit prices? |
+| 02 | Bar chart with value labels | Which product category generates the most revenue? |
+| 03 | Scatter plot with Pearson r | Is there a relationship between price and quantity? |
+| 04 | Line chart with rolling average | Is there a temporal pattern in order volume? |
+| 05 | Horizontal bar with percentages | How are orders distributed across regions? |
+| 06 | 2x2 subplots grid | Four key views in one figure |
+| 07 | Misleading vs honest comparison | How can a truncated y-axis deceive? |
+| 08 | Before/after overlaid histograms | How did cleaning change the data's shape? |
+| 09 | Category counts bar chart | How many orders per category after normalization? |
 
 ### Extra Features Beyond Requirements
 
 - IQR-based outlier detection with fence calculations
 - Scipy distribution shape analysis (skewness + kurtosis)
+- Negative unit_price detection (7th issue beyond the 6 listed in spec)
 - Revenue column computed for category-level analysis
-- Post-cleaning verification block confirming all fixes
+- 15 automated post-cleaning verification checks
 - Pearson correlation computed for scatter plot
 - 7-day rolling average on time series chart
+- Misleading vs honest chart comparison (media literacy)
+- Before/after comparison table quantifying cleaning impact
 - Professional color palette, clean spines, formatted axis labels
 
 ## Requirements

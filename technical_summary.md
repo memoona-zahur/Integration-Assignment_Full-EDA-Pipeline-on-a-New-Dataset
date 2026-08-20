@@ -19,6 +19,7 @@ This dataset represents **5,000 hourly orders** placed throughout January–May 
 | Missing `region` | ~200 (4%) | Filled with "Unknown" | Preserves rows; gap remains visible in reports |
 | Inconsistent category casing | ~2,500 (~50%) | Normalized to title case | "Electronics"/"electronics" merged into one category |
 | Negative quantities | 30 | Converted to absolute values | Sign was a data-entry error; magnitude is meaningful |
+| Negative prices | 63 | Converted to absolute values | Sign was a data-entry error; magnitude is meaningful |
 | Implausible unit prices ($4,999.99) | 20 | Replaced with median ($44.15) | Outlier distorted all price-based statistics |
 | Duplicate rows | 15 | Removed exact duplicates | Would inflate counts and revenue totals |
 
