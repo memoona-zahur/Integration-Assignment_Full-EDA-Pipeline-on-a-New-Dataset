@@ -5,7 +5,7 @@
 
 ## What the Dataset Contains
 
-This dataset represents **5,000 hourly orders** placed throughout January–May 2024, each with an order ID, date, customer ID, product category (Electronics, Home Goods, Apparel, or Books), quantity, unit price, and geographic region (North, South, East, or West). The data was generated synthetically with several intentional quality issues to simulate the kinds of problems found in real-world data systems.
+This dataset represents **5,000 hourly orders** placed throughout January–July 2024, each with an order ID, date, customer ID, product category (Electronics, Home Goods, Apparel, or Books), quantity, unit price, and geographic region (North, South, East, or West). The data was generated synthetically with several intentional quality issues to simulate the kinds of problems found in real-world data systems.
 
 **Final cleaned shape:** ~4,850 rows × 8 columns (after removing 15 duplicates, ~150 rows with missing customer IDs, and adding a computed revenue column).
 
