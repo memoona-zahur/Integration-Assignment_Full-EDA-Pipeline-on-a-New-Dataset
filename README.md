@@ -43,7 +43,7 @@ python -m jupyter nbconvert --to notebook --execute week5_thursday_eda.ipynb
 | **1. Loading** | Dataset loaded from `orders_raw.csv` — exact assignment spec |
 | **2. Diagnosis** | Full sweep — `.head()`, `.info()`, `.describe()`, `.isna().sum()`, `.value_counts()`, IQR outlier detection, scipy shape analysis |
 | **3. Cleaning** | 7 per-column fixes — each with written justification and alternatives considered |
-| **4. Verification** | 15 automated quality checks confirming every fix worked |
+| **4. Verification** | 22 automated quality checks confirming every fix worked |
 | **5. Before/After** | Side-by-side comparison table showing cleaning impact |
 | **6. Visualization** | 9 charts via `fig, ax = plt.subplots()` — distribution, category, relationship, time, region, subplots grid, misleading comparison, before/after overlay |
 | **7. Findings** | 4 full-sentence findings, each backed by a specific chart or number |

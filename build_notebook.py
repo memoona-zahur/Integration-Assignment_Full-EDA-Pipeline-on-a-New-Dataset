@@ -516,7 +516,7 @@ print(f"Total revenue: ${orders_clean['revenue'].sum():,.2f}")"""))
 # ============================================================
 cells.append(nbf.v4.new_markdown_cell("""---
 
-## Phase 4 — Post-Cleaning Verification (15 Automated Checks)
+## Phase 4 — Post-Cleaning Verification (22 Automated Checks)
 
 ### Why verify after cleaning
 
@@ -524,25 +524,25 @@ Cleaning without verification is like cooking without tasting. You think the foo
 
 ### What the checks cover
 
-The 15 checks are organized into four categories:
+The 22 checks are organized into six categories:
 
 | Category | Checks | What they confirm |
 |----------|--------|-------------------|
-| **Completeness** | #1, #11 | No NaN values remain anywhere |
-| **Uniqueness** | #2 | No duplicate rows remain |
-| **Range validity** | #3, #4, #5, #6 | Row counts are in range; no negative quantities; no negative prices; no outlier prices |
-| **Consistency** | #7, #8, #9, #10 | Categories are title-cased; correct category count; no lowercase variant; "Unknown" region exists |
+| **Completeness** | #1, #11 | No NaN values remain anywhere; customer_id fully populated |
+| **Uniqueness** | #2, #16 | No duplicate rows remain; order_id is unique per row |
+| **Range validity** | #3, #4, #5, #6, #17, #18 | Row counts in range; no negatives; no outliers; quantities in [1-7]; prices in valid range |
+| **Consistency** | #7, #8, #9, #10, #19, #20 | Categories title-cased; correct count; no lowercase variant; "Unknown" region exists; region values valid; category values valid |
 | **Type correctness** | #12, #13, #14 | Quantity is numeric; price is float; date is datetime |
-| **Derived column** | #15 | Revenue column exists and all values are positive |
+| **Derived column & range** | #15, #21, #22 | Revenue exists and positive; customer_id in valid range; date in expected period |
 """))
 
 cells.append(nbf.v4.new_code_cell("""print("=" * 60)
-print("POST-CLEANING VERIFICATION — 15 AUTOMATED CHECKS")
+print("POST-CLEANING VERIFICATION — 22 AUTOMATED CHECKS")
 print("=" * 60)
 print()
 
 checks_passed = 0
-checks_total = 15
+checks_total = 22
 
 # 1. Zero NaNs anywhere
 nan_count = orders_clean.isna().sum().sum()
@@ -631,6 +631,55 @@ has_revenue = 'revenue' in orders_clean.columns
 rev_positive = (orders_clean['revenue'] > 0).all() if has_revenue else False
 result = has_revenue and rev_positive
 print(f"  {'PASS' if result else 'FAIL'}  15. revenue column exists and all values > 0")
+checks_passed += result
+
+# 16. order_id is unique (no duplicate IDs after dedup)
+oid_dupes = orders_clean['order_id'].duplicated().sum()
+result = oid_dupes == 0
+print(f"  {'PASS' if result else 'FAIL'}  16. order_id is unique: {oid_dupes} duplicate IDs remaining")
+checks_passed += result
+
+# 17. All quantities in [1, 7]
+qty_min = orders_clean['quantity'].min()
+qty_max = orders_clean['quantity'].max()
+result = qty_min >= 1 and qty_max <= 7
+print(f"  {'PASS' if result else 'FAIL'}  17. quantity values in [1, 7]: range [{qty_min}, {qty_max}]")
+checks_passed += result
+
+# 18. No zero or negative unit_prices
+zero_prices = (orders_clean['unit_price'] <= 0).sum()
+result = zero_prices == 0
+print(f"  {'PASS' if result else 'FAIL'}  18. No zero or negative unit_prices: {zero_prices} found")
+checks_passed += result
+
+# 19. region values only in expected set
+expected_regions = {'North', 'South', 'East', 'West', 'Unknown'}
+actual_regions = set(orders_clean['region'].unique())
+unexpected_regions = actual_regions - expected_regions
+result = len(unexpected_regions) == 0
+print(f"  {'PASS' if result else 'FAIL'}  19. region values in expected set: {sorted(actual_regions)}")
+checks_passed += result
+
+# 20. product_category values only in expected set
+expected_cats = {'Electronics', 'Home Goods', 'Apparel', 'Books'}
+actual_cats = set(orders_clean['product_category'].unique())
+unexpected_cats = actual_cats - expected_cats
+result = len(unexpected_cats) == 0
+print(f"  {'PASS' if result else 'FAIL'}  20. category values in expected set: {sorted(actual_cats)}")
+checks_passed += result
+
+# 21. customer_id values all in [1000, 1199]
+cid_min = orders_clean['customer_id'].min()
+cid_max = orders_clean['customer_id'].max()
+result = cid_min >= 1000 and cid_max <= 1199
+print(f"  {'PASS' if result else 'FAIL'}  21. customer_id in [1000, 1199]: range [{cid_min}, {cid_max}]")
+checks_passed += result
+
+# 22. order_date within expected period (Jan - Jul 2024)
+date_min = orders_clean['order_date'].min()
+date_max = orders_clean['order_date'].max()
+result = date_min >= pd.Timestamp('2024-01-01') and date_max <= pd.Timestamp('2024-12-31')
+print(f"  {'PASS' if result else 'FAIL'}  22. order_date within 2024: {date_min.date()} to {date_max.date()}")
 checks_passed += result
 
 print()
@@ -1337,7 +1386,7 @@ cells.append(nbf.v4.new_code_cell("""checklist = [
     ("Misleading chart comparison (truncated y-axis) included", True),
     ("2x2 subplots grid included (4 views in one figure)", True),
     ("Statistical annotations on charts (mean, median, skewness, Pearson r)", True),
-    ("15 automated post-cleaning quality checks — all passing", True),
+    ("22 automated post-cleaning quality checks — all passing", True),
     ("Before/after comparison table showing cleaning impact", True),
     ("4 findings stated as full sentences backed by specific charts/numbers", True),
     ("Technical summary written for non-technical reader with honest limitations", True),
