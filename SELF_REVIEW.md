@@ -1,8 +1,5 @@
 # Self-Review Checklist — Week 5 Thursday EDA
 
-Student: Memoona Zahur
-Date: 2026-08-21
-
 ## Data Loading & Inspection
 
 - [x] Dataset loaded from CSV via `pd.read_csv()`
