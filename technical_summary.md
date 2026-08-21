@@ -33,7 +33,7 @@ This dataset represents **5,000 hourly orders** placed throughout January–July
 
 3. **4% of orders lack geographic data.** After filling missing regions with "Unknown," the gap remains visible in all reports. Any regional revenue comparison must acknowledge that roughly 1 in 25 orders is excluded from region-specific conclusions.
 
-4. **0.6% of orders (30) carry the sign pattern for returns.** The spec's code comment labels these as "returns, disguised as negative quantity." An `is_return` flag was derived from the original sign before cleaning, preserving the signal. In a real system, this flag would feed into a returns-tracking pipeline; here, it demonstrates the habit of capturing business signal before overwriting it with a fix.
+5. **0.6% of orders (30) carry the sign pattern for returns.** The spec's code comment labels these as "returns, disguised as negative quantity." An `is_return` flag was derived from the original sign before cleaning, preserving the signal. The breakdown shows return-flagged orders have a lower average price ($40.70 vs $64.42) and slightly smaller average quantity (3.53 vs 3.98) — suggestive of returns skewing toward lower-value items, though with only 30 orders this is not conclusive. In a real system, this flag would feed into a returns-tracking pipeline; here, it demonstrates the habit of capturing business signal before overwriting it with a fix.
 
 ---
 
