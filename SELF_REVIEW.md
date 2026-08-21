@@ -64,6 +64,6 @@
 
 **Limitations acknowledged:**
 - Negative quantities treated as sign errors; a return-aware system would net these against revenue
-- `is_return` flag not created (no transaction-type column in dataset)
+- `is_return` flag created from original quantity sign before `.abs()`; available for downstream segmentation
 - `Unknown` region is a placeholder, not a real geographic region
 - Outlier replacement uses median — sensitive to distribution shape
