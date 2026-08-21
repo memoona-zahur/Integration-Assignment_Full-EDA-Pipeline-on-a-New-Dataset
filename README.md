@@ -10,6 +10,7 @@ Self-contained exploratory data analysis notebook: generate a dataset with plant
 | `generate_data.py` | Reproducible dataset generation — exact assignment spec, seed=42, creates orders_raw.csv |
 | `orders_raw.csv` | Raw dataset — 5,015 rows x 7 columns with 7 planted quality issues |
 | `technical_summary.md` | Standalone write-up for non-technical readers — findings, limitations, cleaning summary |
+| `SELF_REVIEW.md` | Self-review checklist — 27 items verified, issues documented, honest self-assessment |
 | `build_notebook.py` | Build script — generates the notebook programmatically for reproducibility |
 | `.venv/` | Python virtual environment (numpy, pandas, matplotlib, scipy, jupyter) |
 | `.gitignore` | Excludes `.venv/` from version control |
